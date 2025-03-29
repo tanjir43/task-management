@@ -22,7 +22,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name.required' => 'Project name is required',
-            'name.max' => 'Project name cannot exceed 255 characters',
+            'name.max'      => 'Project name cannot exceed 255 characters',
         ];
     }
 }
