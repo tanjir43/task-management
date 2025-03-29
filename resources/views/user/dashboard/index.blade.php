@@ -1,5 +1,8 @@
-<!-- resources/views/dashboard/index.blade.php -->
 @extends('layouts.app')
+
+@section('styles')
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+@endsection
 
 @section('content')
 <div class="container">
@@ -70,34 +73,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('styles')
-<style>
-    .border-left-primary {
-        border-left: 0.25rem solid #4e73df !important;
-    }
-    .border-left-success {
-        border-left: 0.25rem solid #1cc88a !important;
-    }
-    .text-primary {
-        color: #4e73df !important;
-    }
-    .text-success {
-        color: #1cc88a !important;
-    }
-    .text-gray-300 {
-        color: #dddfeb !important;
-    }
-    .text-gray-800 {
-        color: #5a5c69 !important;
-    }
-    .text-xs {
-        font-size: 0.7rem;
-    }
-    .btn-block {
-        display: block;
-        width: 100%;
-    }
-</style>
 @endsection

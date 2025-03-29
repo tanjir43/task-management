@@ -1,30 +1,32 @@
-<!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('components.user-meta')
     <title>{{ config('app.name', 'Task Manager') }}</title>
 
-    <!-- Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .task-item {
-            cursor: move;
-        }
-        .task-item:hover {
-            background-color: #f8f9fa;
-        }
-        .sortable-ghost {
-            opacity: 0.5;
-            background: #c8ebfb;
-        }
-    </style>
+    @include('components.user-style')
     @yield('styles')
+
+    <script>
+        var routes = {};
+
+        function route(name, params = {}) {
+            if (!routes[name]) {
+                throw new Error(`Route ${name} not found`);
+            }
+
+            let url = routes[name];
+
+            for (let param in params) {
+                url = url.replace(`{${param}}`, params[param]);
+            }
+
+            return url;
+        }
+    </script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
@@ -87,77 +89,22 @@
         @yield('content')
     </main>
 
-<!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<script>
-    // Set up CSRF token for all AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+    @include('components.user-script')
 
-    // Toastr configuration
-    toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-    // Global AJAX event handlers
-    $(document).ajaxSuccess(function(event, xhr, settings) {
-        if (xhr.responseJSON && xhr.responseJSON.message) {
-            const status = xhr.responseJSON.status || 'success';
-            if (status === 'success') {
-                toastr.success(xhr.responseJSON.message);
-            } else if (status === 'error') {
-                toastr.error(xhr.responseJSON.message);
-            } else if (status === 'warning') {
-                toastr.warning(xhr.responseJSON.message);
-            } else if (status === 'info') {
-                toastr.info(xhr.responseJSON.message);
-            }
-        }
-    });
-
-    $(document).ajaxError(function(event, xhr, settings) {
-        if (xhr.status !== 422) { // Skip validation errors
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                toastr.error(xhr.responseJSON.message);
-            } else {
-                toastr.error('An error occurred while processing your request.');
-            }
-        }
-    });
-
-    // Display Laravel flash messages with toastr
-    @if(session('success'))
-        toastr.success("{{ session('success') }}");
-    @endif
-
-    @if(session('error'))
-        toastr.error("{{ session('error') }}");
-    @endif
-
-    @if(session('info'))
-        toastr.info("{{ session('info') }}");
-    @endif
-
-    @if(session('warning'))
-        toastr.warning("{{ session('warning') }}");
-    @endif
-</script>
+    @section('routes')
+        <script>
+            routes = {
+                'projects.store'  : '{{ route('projects.store') }}',
+                'projects.update' : '{{ route('projects.update', ['id' => ':id']) }}'.replace(':id', '{id}'),
+                'projects.destroy': '{{ route('projects.destroy', ['id' => ':id']) }}'.replace(':id', '{id}'),
+                'tasks.store'     : '{{ route('tasks.store') }}',
+                'tasks.update'    : '{{ route('tasks.update', ['id' => ':id']) }}'.replace(':id', '{id}'),
+                'tasks.destroy'   : '{{ route('tasks.destroy', ['id' => ':id']) }}'.replace(':id', '{id}'),
+                'tasks.reorder'   : '{{ route('tasks.reorder') }}'
+            };
+        </script>
+    @show
 
 @yield('scripts')
 </body>
