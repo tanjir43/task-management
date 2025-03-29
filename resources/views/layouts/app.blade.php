@@ -98,6 +98,7 @@
                 'projects.store'  : '{{ route('projects.store') }}',
                 'projects.update' : '{{ route('projects.update', ['id' => ':id']) }}'.replace(':id', '{id}'),
                 'projects.destroy': '{{ route('projects.destroy', ['id' => ':id']) }}'.replace(':id', '{id}'),
+                'tasks.index'     : '{{ route('tasks.index') }}',
                 'tasks.store'     : '{{ route('tasks.store') }}',
                 'tasks.update'    : '{{ route('tasks.update', ['id' => ':id']) }}'.replace(':id', '{id}'),
                 'tasks.destroy'   : '{{ route('tasks.destroy', ['id' => ':id']) }}'.replace(':id', '{id}'),
