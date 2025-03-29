@@ -20,15 +20,15 @@ class TaskController extends Controller
         TaskRepositoryInterface $taskRepository,
         ProjectRepositoryInterface $projectRepository
     ) {
-        $this->taskRepository = $taskRepository;
-        $this->projectRepository = $projectRepository;
+        $this->taskRepository       = $taskRepository;
+        $this->projectRepository    = $projectRepository;
     }
 
     public function index(Request $request)
     {
-        $tasks = $this->taskRepository->all();
-        $projects = $this->projectRepository->all();
-        $projectId = $request->query('project_id');
+        $tasks      = $this->taskRepository->all();
+        $projects   = $this->projectRepository->all();
+        $projectId  = $request->query('project_id');
 
         if ($projectId) {
             $tasks = $this->taskRepository->getByProject($projectId);
@@ -61,17 +61,17 @@ class TaskController extends Controller
             DB::commit();
 
             return response()->json([
-                'status' => 'success',
-                'message' => 'Task created successfully!',
-                'task' => $task
+                'status'    => 'success',
+                'message'   => 'Task created successfully!',
+                'task'      => $task
             ]);
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
+                'status'    => 'error',
+                'message'   => $e->getMessage()
             ], 500);
         }
     }
@@ -89,17 +89,17 @@ class TaskController extends Controller
             DB::commit();
 
             return response()->json([
-                'status' => 'success',
-                'message' => 'Task updated successfully!',
-                'task' => $task
+                'status'    => 'success',
+                'message'   => 'Task updated successfully!',
+                'task'      => $task
             ]);
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
+                'status'    => 'error',
+                'message'   => $e->getMessage()
             ], 500);
         }
     }
@@ -117,16 +117,16 @@ class TaskController extends Controller
             DB::commit();
 
             return response()->json([
-                'status' => 'success',
-                'message' => 'Task deleted successfully!'
+                'status'    => 'success',
+                'message'   => 'Task deleted successfully!'
             ]);
 
         } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
+                'status'    => 'error',
+                'message'   => $e->getMessage()
             ], 500);
         }
     }
@@ -140,20 +140,20 @@ class TaskController extends Controller
 
             if ($result) {
                 return response()->json([
-                    'status' => 'success',
-                    'message' => 'Tasks reordered successfully!'
+                    'status'    => 'success',
+                    'message'   => 'Tasks reordered successfully!'
                 ]);
             } else {
                 return response()->json([
-                    'status' => 'error',
-                    'message' => 'Error reordering tasks'
+                    'status'    => 'error',
+                    'message'   => 'Error reordering tasks'
                 ], 500);
             }
 
         } catch (Exception $e) {
             return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
+                'status'    => 'error',
+                'message'   => $e->getMessage()
             ], 500);
         }
     }

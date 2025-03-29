@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +38,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return response()->json([
-                'status' => 'success',
+                'status'  => 'success',
                 'message' => 'Project created successfully!',
                 'project' => $project
             ]);
@@ -48,8 +47,8 @@ class ProjectController extends Controller
             DB::rollBack();
 
             return response()->json([
-                'status' => 'error',
-                'message' => 'Error occurred while creating project: ' . $e->getMessage()
+                'status'  => 'error',
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -67,7 +66,7 @@ class ProjectController extends Controller
             DB::commit();
 
             return response()->json([
-                'status' => 'success',
+                'status'  => 'success',
                 'message' => 'Project updated successfully!',
                 'project' => $project
             ]);
@@ -77,7 +76,7 @@ class ProjectController extends Controller
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error occurred while updating project: ' . $e->getMessage()
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -103,8 +102,8 @@ class ProjectController extends Controller
             DB::rollBack();
 
             return response()->json([
-                'status' => 'error',
-                'message' => 'Error occurred while deleting project: ' . $e->getMessage()
+                'status'  => 'error',
+                'message' => $e->getMessage()
             ], 500);
         }
     }

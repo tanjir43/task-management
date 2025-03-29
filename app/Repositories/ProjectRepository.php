@@ -19,16 +19,6 @@ class ProjectRepository implements ProjectRepositoryInterface
         return $this->model->all();
     }
 
-    public function getTrashed()
-    {
-        return $this->model->onlyTrashed()->get();
-    }
-
-    public function withTrashedItems()
-    {
-        return $this->model->withTrashed()->get();
-    }
-
     public function find($id)
     {
         return $this->model->findOrFail($id);
@@ -57,29 +47,5 @@ class ProjectRepository implements ProjectRepositoryInterface
         }
 
         return $this->model->whereIn('id', $ids)->delete();
-    }
-
-    public function restore($id)
-    {
-        if (strpos($id, ',') !== false) {
-            $ids = explode(',', $id);
-            return $this->model->withTrashed()->whereIn('id', $ids)->restore();
-        }
-
-        $project = $this->model->withTrashed()->findOrFail($id);
-        $project->restore();
-        return $project;
-    }
-
-    public function forceDelete($id)
-    {
-        if (strpos($id, ',') !== false) {
-            $ids = explode(',', $id);
-            return $this->model->withTrashed()->whereIn('id', $ids)->forceDelete();
-        }
-
-        $project = $this->model->withTrashed()->findOrFail($id);
-        $project->forceDelete();
-        return $project;
     }
 }
